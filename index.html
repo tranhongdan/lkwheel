@@ -70,10 +70,10 @@
         <p class="text-white/80 mb-8">Giữ nút để chọn lực quay!</p>
 
         <!-- The "Slot Machine" Display -->
-        <div id="wheel-container" class="relative w-full mx-auto h-28 md:h-36 bg-gray-900/50 rounded-lg overflow-hidden flex items-center justify-center border-2 border-white/50 shadow-inner">
+        <div id="wheel-container" class="relative w-full mx-auto h-28 md:h-36 bg-gray-900/50 rounded-lg overflow-hidden flex items-center justify-center border-2 border-white/50 shadow-inner px-2">
              <div class="absolute top-0 left-0 w-full h-1/2 bg-gradient-to-b from-black/50 to-transparent"></div>
              <div class="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-t from-black/50 to-transparent"></div>
-            <div id="name-display" class="wheel-display text-2xl sm:text-4xl md:text-6xl text-white transition-transform duration-100 ease-linear whitespace-nowrap">
+            <div id="name-display" class="wheel-display text-6xl text-white transition-transform duration-100 ease-linear whitespace-nowrap">
                 <!-- Tên học sinh sẽ hiển thị ở đây -->
             </div>
         </div>
@@ -97,7 +97,7 @@
         <div id="winner-modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 hidden z-50">
             <div class="bg-white p-6 sm:p-8 rounded-lg text-center shadow-xl transform transition-all scale-95 opacity-0 w-11/12 max-w-lg" id="modal-content">
                 <h2 class="text-3xl font-bold text-yellow-500 mb-2">CHÚC Mừng!</h2>
-                <p id="winner-name" class="text-3xl sm:text-4xl md:text-5xl font-black text-gray-800 my-6 break-words"></p>
+                <p id="winner-name" class="text-5xl font-black text-gray-800 my-6 break-words"></p>
                 <button id="close-modal" class="bg-indigo-600 text-white font-bold px-8 py-3 rounded-full hover:bg-indigo-700 transition-colors">Tuyệt vời!</button>
             </div>
         </div>
@@ -106,6 +106,7 @@
     <script>
         // DOM Elements
         const nameDisplay = document.getElementById('name-display');
+        const wheelContainer = document.getElementById('wheel-container');
         const spinButton = document.getElementById('spin-button');
         const winnerModal = document.getElementById('winner-modal');
         const modalContent = document.getElementById('modal-content');
@@ -116,19 +117,8 @@
         const powerBarPositive = document.getElementById('power-bar-positive');
         const powerBarNegative = document.getElementById('power-bar-negative');
 
-        const students = [
-            "NGUYỄN HOÀI ANH", "TRẦN THỊ NGỌC ÁNH", "VÕ THỊ KIM ÂN", "NGUYỄN NGỌC MINH CHÂU",
-            "NGUYỄN NGỌC MỸ CHI", "NGUYỄN NGỌC THÀNH CÔNG", "NGUYỄN THỊ KIỀU DIỄM", "VÕ LÊ KIỀU DUYÊN",
-            "NGUYỄN ĐÌNH ĐẠT", "PHẠM THỊ YẾN HẠ", "NGUYỄN LÊ HIẾU", "PHAN THỊ THANH HOA",
-            "HOÀNG MẠNH HUY", "PHAN CẢNH ANH KHÔI", "NGUYỄN TRUNG KIÊN", "NGUYỄN HOÀNG ĐÌNH LUÂN",
-            "ĐẬU THỊ THANH MAI", "HUỲNH THỊ NY NA", "DƯƠNG THỊ KIM NGÂN", "TRẦN YẾN NGÂN",
-            "NGUYỄN HỒNG THẢO NGUYÊN", "PHÙNG BÁ VĨNH NGUYÊN", "ĐOÀN THỊ NGỌC NHI", "NGUYỄN THỊ THẢO NHI",
-            "PHAN HOÀNG GIA NHƯ", "PHẠM THỊ HỒNG NHUNG", "HUỲNH PHÚC KHANG NINH", "NGUYỄN VĂN PHƯỚC",
-            "ĐOÀN ANH QUANG", "NGUYỄN THỊ NHƯ QUYÊN", "ĐINH THỊ DIỄM QUỲNH", "LƯƠNG NGỌC THIÊN THANH",
-            "TRƯƠNG THỊ THANH THẢO", "NGUYỄN PHẠM ANH THƯ", "TRẦN THỊ ANH THƯ", "NGUYỄN THỊ THU THỦY",
-            "VÕ THỊ NGỌC TRÂM", "PHẠM THỊ NGỌC TRINH", "TRẦN THỊ PHƯƠNG UYÊN", "NGUYỄN MINH UYÊN",
-            "NGUYỄN TRỌNG BẢO VY", "ĐỖ THỊ TƯỜNG VY", "NGUYỄN PHẠM TƯỜNG VY"
-        ];
+        const students = ["NGUYỄN HOÀI ANH", "TRẦN THỊ NGỌC ÁNH", "VÕ THỊ KIM ÂN", "NGUYỄN NGỌC MINH CHÂU", "NGUYỄN NGỌC MỸ CHI", "NGUYỄN NGỌC THÀNH CÔNG", "NGUYỄN THỊ KIỀU DIỄM", "VÕ LÊ KIỀU DUYÊN", "NGUYỄN ĐÌNH ĐẠT", "PHẠM THỊ YẾN HẠ", "NGUYỄN LÊ HIẾU", "PHAN THỊ THANH HOA", "HOÀNG MẠNH HUY", "PHAN CẢNH ANH KHÔI", "NGUYỄN TRUNG KIÊN", "NGUYỄN HOÀNG ĐÌNH LUÂN", "ĐẬU THỊ THANH MAI", "HUỲNH THỊ NY NA", "DƯƠNG THỊ KIM NGÂN", "TRẦN YẾN NGÂN", "NGUYỄN HỒNG THẢO NGUYÊN", "PHÙNG BÁ VĨNH NGUYÊN", "ĐOÀN THỊ NGỌC NHI", "NGUYỄN THỊ THẢO NHI", "PHAN HOÀNG GIA NHƯ", "PHẠM THỊ HỒNG NHUNG", "HUỲNH PHÚC KHANG NINH", "NGUYỄN VĂN PHƯỚC", "ĐOÀN ANH QUANG", "NGUYỄN THỊ NHƯ QUYÊN", "ĐINH THỊ DIỄM QUỲNH", "LƯƠNG NGỌC THIÊN THANH", "NGUYỄN ĐÌNH THÀNH", "MAI QUANG THIÊN", "NGUYỄN NGỌC BẢO THY", "TRẦN QUỲNH THY", "NGUYỄN DƯƠNG BẢO TRÂN", "NGUYỄN NGỌC HUYỀN TRANG", "ĐỖ VĂN TRƯỜNG", "ĐẶNG LÊ MINH TUẤN", "NGUYỄN ANH TUẤN", "NGUYỄN MẠNH TUẤN", "VƯƠNG THANH TÙNG", "LÊ TRƯỜNG THU UYÊN", "HỒ THỊ TƯỜNG VI", "VŨ DUY VINH", "HOÀNG LÊ VY", "NGUYỄN TRÚC UYÊN VY"
+];
         
         // Game State
         let isSpinning = false;
@@ -136,11 +126,37 @@
         let powerLevel = 0;
         let chargeInterval;
         let spinTimeout;
-        // Bắt đầu với một chỉ số ngẫu nhiên
         let currentIndex = Math.floor(Math.random() * students.length);
 
+        // --- FONT SIZE ADJUSTMENT ---
+        const adjustFontSize = (element, container) => {
+            element.style.fontSize = ''; // Reset to CSS default
+            const baseFontSize = parseFloat(getComputedStyle(element).fontSize);
+            let scale = 1;
+
+            // Only adjust if necessary
+            if (element.scrollWidth > container.clientWidth) {
+                scale = container.clientWidth / element.scrollWidth;
+            }
+            
+            // Apply new size, ensuring it doesn't go below a minimum
+            element.style.fontSize = `${Math.max(12, baseFontSize * scale)}px`;
+        };
+
         // --- INITIALIZE ---
-        nameDisplay.textContent = students[currentIndex];
+        const initialize = () => {
+            nameDisplay.textContent = students[currentIndex];
+            adjustFontSize(nameDisplay, wheelContainer);
+        };
+        initialize();
+        
+        window.addEventListener('resize', () => {
+            adjustFontSize(nameDisplay, wheelContainer);
+            if (!winnerModal.classList.contains('hidden')) {
+                adjustFontSize(winnerName, modalContent);
+            }
+        });
+
 
         // --- PRESS AND HOLD LOGIC ---
         const handlePress = () => {
@@ -164,9 +180,8 @@
             let angle = 0;
 
             chargeInterval = setInterval(() => {
-                // Sử dụng hàm sin để mô phỏng dao động điều hòa
                 powerLevel = maxPower * Math.sin(angle);
-                const barPercentage = (Math.abs(powerLevel) / maxPower) * 50; // Tối đa 50% cho mỗi bên
+                const barPercentage = (Math.abs(powerLevel) / maxPower) * 50; 
 
                 if (powerLevel >= 0) {
                     powerBarPositive.style.width = `${barPercentage}%`;
@@ -176,7 +191,7 @@
                     powerBarPositive.style.width = '0%';
                 }
                 
-                angle += 0.05; // Tốc độ dao động
+                angle += 0.05; 
             }, 10);
         };
 
@@ -187,7 +202,7 @@
             nameDisplay.classList.remove('text-green-400');
             
             const stepsToAdvance = Math.round(power);
-            const direction = Math.sign(stepsToAdvance); // 1: tới, -1: lùi
+            const direction = Math.sign(stepsToAdvance); 
             const totalSteps = Math.abs(stepsToAdvance);
             
             if (totalSteps === 0) {
@@ -204,9 +219,9 @@
                 }
                 
                 currentStep++;
-                // Công thức để quay ngược và xuôi một cách chính xác
                 currentIndex = (currentIndex + direction + students.length) % students.length;
                 nameDisplay.textContent = students[currentIndex];
+                adjustFontSize(nameDisplay, wheelContainer); // Adjust on each spin
 
                 const progress = currentStep / totalSteps;
                 const delay = 50 + Math.pow(progress, 4) * 450;
@@ -219,6 +234,7 @@
         const selectWinner = () => {
             const winner = students[currentIndex];
             nameDisplay.textContent = winner;
+            adjustFontSize(nameDisplay, wheelContainer); // Final adjust
             nameDisplay.classList.add('text-green-400');
             showWinnerModal(winner);
         };
@@ -226,6 +242,8 @@
         const showWinnerModal = (name) => {
             winnerName.textContent = name;
             winnerModal.classList.remove('hidden');
+            adjustFontSize(winnerName, modalContent); // Adjust on show
+
             setTimeout(() => {
                 modalContent.classList.remove('scale-95', 'opacity-0');
                 modalContent.classList.add('scale-100', 'opacity-100');
