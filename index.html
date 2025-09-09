@@ -65,28 +65,35 @@
 <body class="flex items-center justify-center min-h-screen p-4">
 
     <div id="app" class="text-center p-6 md:p-10 bg-white/20 backdrop-blur-xl rounded-2xl shadow-2xl max-w-2xl w-full border border-white/30">
+        <!-- Main content -->
         <h1 class="text-4xl md:text-5xl font-black text-white mb-3" style="text-shadow: 0 2px 4px rgba(0,0,0,0.2);">LUCKY WHEEL - A1</h1>
         <p class="text-white/80 mb-8">Giữ nút để chọn lực quay!</p>
 
+        <!-- The "Slot Machine" Display -->
         <div id="wheel-container" class="relative w-full mx-auto h-28 md:h-36 bg-gray-900/50 rounded-lg overflow-hidden flex items-center justify-center border-2 border-white/50 shadow-inner">
              <div class="absolute top-0 left-0 w-full h-1/2 bg-gradient-to-b from-black/50 to-transparent"></div>
              <div class="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-t from-black/50 to-transparent"></div>
             <div id="name-display" class="wheel-display text-4xl md:text-6xl text-white transition-transform duration-100 ease-linear">
-                </div>
+                <!-- Tên học sinh sẽ hiển thị ở đây -->
+            </div>
         </div>
         
+        <!-- Power Bar -->
         <div id="power-bar-container" class="w-full h-6 bg-gray-900/50 rounded-lg mt-8 hidden relative p-1">
              <div id="power-bar-positive" class="h-full absolute left-1/2 rounded-r-sm" style="width: 0%; background: linear-gradient(90deg, #A7F3D0, #34D399);"></div>
              <div id="power-bar-negative" class="h-full absolute right-1/2 rounded-l-sm" style="width: 0%; background: linear-gradient(270deg, #FCA5A5, #EF4444);"></div>
              <div class="absolute top-0 left-1/2 w-0.5 h-full bg-white/50"></div>
         </div>
 
+        <!-- Spin Button -->
         <button id="spin-button" class="btn-spin mt-4 w-full md:w-auto text-2xl font-bold bg-white text-indigo-600 px-12 py-4 rounded-full shadow-lg hover:bg-yellow-300">
             Bắt đầu quay!
         </button>
 
+        <!-- Confetti Container -->
         <div id="confetti-container" class="absolute top-0 left-0 w-full h-full pointer-events-none overflow-hidden"></div>
 
+        <!-- Modal for Winner -->
         <div id="winner-modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 hidden z-50">
             <div class="bg-white p-8 rounded-lg text-center shadow-xl transform transition-all scale-95 opacity-0" id="modal-content">
                 <h2 class="text-3xl font-bold text-yellow-500 mb-2">CHÚC Mừng!</h2>
@@ -117,7 +124,8 @@
         let powerLevel = 0;
         let chargeInterval;
         let spinTimeout;
-        let currentIndex = 0;
+        // Bắt đầu với một chỉ số ngẫu nhiên
+        let currentIndex = Math.floor(Math.random() * students.length);
 
         // --- INITIALIZE ---
         nameDisplay.textContent = students[currentIndex];
