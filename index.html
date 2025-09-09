@@ -73,7 +73,7 @@
         <div id="wheel-container" class="relative w-full mx-auto h-28 md:h-36 bg-gray-900/50 rounded-lg overflow-hidden flex items-center justify-center border-2 border-white/50 shadow-inner px-2">
              <div class="absolute top-0 left-0 w-full h-1/2 bg-gradient-to-b from-black/50 to-transparent"></div>
              <div class="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-t from-black/50 to-transparent"></div>
-            <div id="name-display" class="wheel-display text-6xl text-white transition-transform duration-100 ease-linear whitespace-nowrap">
+            <div id="name-display" class="wheel-display text-4xl sm:text-5xl md:text-6xl text-white transition-transform duration-100 ease-linear whitespace-nowrap">
                 <!-- Tên học sinh sẽ hiển thị ở đây -->
             </div>
         </div>
@@ -97,7 +97,7 @@
         <div id="winner-modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 hidden z-50">
             <div class="bg-white p-6 sm:p-8 rounded-lg text-center shadow-xl transform transition-all scale-95 opacity-0 w-11/12 max-w-lg" id="modal-content">
                 <h2 class="text-3xl font-bold text-yellow-500 mb-2">CHÚC Mừng!</h2>
-                <p id="winner-name" class="text-5xl font-black text-gray-800 my-6 break-words"></p>
+                <p id="winner-name" class="text-4xl sm:text-5xl font-black text-gray-800 my-6 break-words"></p>
                 <button id="close-modal" class="bg-indigo-600 text-white font-bold px-8 py-3 rounded-full hover:bg-indigo-700 transition-colors">Tuyệt vời!</button>
             </div>
         </div>
@@ -117,8 +117,9 @@
         const powerBarPositive = document.getElementById('power-bar-positive');
         const powerBarNegative = document.getElementById('power-bar-negative');
 
-        const students = ["NGUYỄN HOÀI ANH", "TRẦN THỊ NGỌC ÁNH", "VÕ THỊ KIM ÂN", "NGUYỄN NGỌC MINH CHÂU", "NGUYỄN NGỌC MỸ CHI", "NGUYỄN NGỌC THÀNH CÔNG", "NGUYỄN THỊ KIỀU DIỄM", "VÕ LÊ KIỀU DUYÊN", "NGUYỄN ĐÌNH ĐẠT", "PHẠM THỊ YẾN HẠ", "NGUYỄN LÊ HIẾU", "PHAN THỊ THANH HOA", "HOÀNG MẠNH HUY", "PHAN CẢNH ANH KHÔI", "NGUYỄN TRUNG KIÊN", "NGUYỄN HOÀNG ĐÌNH LUÂN", "ĐẬU THỊ THANH MAI", "HUỲNH THỊ NY NA", "DƯƠNG THỊ KIM NGÂN", "TRẦN YẾN NGÂN", "NGUYỄN HỒNG THẢO NGUYÊN", "PHÙNG BÁ VĨNH NGUYÊN", "ĐOÀN THỊ NGỌC NHI", "NGUYỄN THỊ THẢO NHI", "PHAN HOÀNG GIA NHƯ", "PHẠM THỊ HỒNG NHUNG", "HUỲNH PHÚC KHANG NINH", "NGUYỄN VĂN PHƯỚC", "ĐOÀN ANH QUANG", "NGUYỄN THỊ NHƯ QUYÊN", "ĐINH THỊ DIỄM QUỲNH", "LƯƠNG NGỌC THIÊN THANH", "NGUYỄN ĐÌNH THÀNH", "MAI QUANG THIÊN", "NGUYỄN NGỌC BẢO THY", "TRẦN QUỲNH THY", "NGUYỄN DƯƠNG BẢO TRÂN", "NGUYỄN NGỌC HUYỀN TRANG", "ĐỖ VĂN TRƯỜNG", "ĐẶNG LÊ MINH TUẤN", "NGUYỄN ANH TUẤN", "NGUYỄN MẠNH TUẤN", "VƯƠNG THANH TÙNG", "LÊ TRƯỜNG THU UYÊN", "HỒ THỊ TƯỜNG VI", "VŨ DUY VINH", "HOÀNG LÊ VY", "NGUYỄN TRÚC UYÊN VY"
-];
+        const students = [
+            "NGUYỄN HOÀI ANH", "TRẦN THỊ NGỌC ÁNH", "VÕ THỊ KIM ÂN", "NGUYỄN NGỌC MINH CHÂU", "NGUYỄN NGỌC MỸ CHI", "NGUYỄN NGỌC THÀNH CÔNG", "NGUYỄN THỊ KIỀU DIỄM", "VÕ LÊ KIỀU DUYÊN", "NGUYỄN ĐÌNH ĐẠT", "PHẠM THỊ YẾN HẠ", "NGUYỄN LÊ HIẾU", "PHAN THỊ THANH HOA", "HOÀNG MẠNH HUY", "PHAN CẢNH ANH KHÔI", "NGUYỄN TRUNG KIÊN", "NGUYỄN HOÀNG ĐÌNH LUÂN", "ĐẬU THỊ THANH MAI", "HUỲNH THỊ NY NA", "DƯƠNG THỊ KIM NGÂN", "TRẦN YẾN NGÂN", "NGUYỄN HỒNG THẢO NGUYÊN", "PHÙNG BÁ VĨNH NGUYÊN", "ĐOÀN THỊ NGỌC NHI", "NGUYỄN THỊ THẢO NHI", "PHAN HOÀNG GIA NHƯ", "PHẠM THỊ HỒNG NHUNG", "HUỲNH PHÚC KHANG NINH", "NGUYỄN VĂN PHƯỚC", "ĐOÀN ANH QUANG", "NGUYỄN THỊ NHƯ QUYÊN", "ĐINH THỊ DIỄM QUỲNH", "LƯƠNG NGỌC THIÊN THANH", "NGUYỄN ĐÌNH THÀNH", "MAI QUANG THIÊN", "NGUYỄN NGỌC BẢO THY", "TRẦN QUỲNH THY", "NGUYỄN DƯƠNG BẢO TRÂN", "NGUYỄN NGỌC HUYỀN TRANG", "ĐỖ VĂN TRƯỜNG", "ĐẶNG LÊ MINH TUẤN", "NGUYỄN ANH TUẤN", "NGUYỄN MẠNH TUẤN", "VƯƠNG THANH TÙNG", "LÊ TRƯỜNG THU UYÊN", "HỒ THỊ TƯỜNG VI", "VŨ DUY VINH", "HOÀNG LÊ VY", "NGUYỄN TRÚC UYÊN VY"
+        ];
         
         // Game State
         let isSpinning = false;
