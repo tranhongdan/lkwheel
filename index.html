@@ -71,22 +71,18 @@
 
         <!-- The "Slot Machine" Display -->
         <div id="wheel-container" class="relative w-full mx-auto h-28 md:h-36 bg-gray-900/50 rounded-lg overflow-hidden flex items-center justify-center border-2 border-white/50 shadow-inner px-2">
-             <div class="absolute top-0 left-0 w-full h-1/2 bg-gradient-to-b from-black/50 to-transparent"></div>
-             <div class="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-t from-black/50 to-transparent"></div>
-            <div id="name-display" class="wheel-display text-4xl sm:text-5xl md:text-6xl text-white transition-transform duration-100 ease-linear whitespace-nowrap">
+             <div class="absolute top-0 left-0 w-full h-1/2 bg-gradient-to-b from-black/50 to-transparent z-10"></div>
+             <div class="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-t from-black/50 to-transparent z-10"></div>
+            <div id="name-display" class="relative wheel-display text-4xl sm:text-5xl md:text-6xl text-white transition-transform duration-100 ease-linear whitespace-nowrap z-20">
                 <!-- Tên học sinh sẽ hiển thị ở đây -->
             </div>
+            <!-- Power Overlays -->
+            <div id="power-bar-positive" class="absolute left-1/2 top-0 h-full rounded-r-sm opacity-70" style="width: 0%; background: linear-gradient(90deg, #A7F3D0, #34D399);"></div>
+            <div id="power-bar-negative" class="absolute right-1/2 top-0 h-full rounded-l-sm opacity-70" style="width: 0%; background: linear-gradient(270deg, #FCA5A5, #EF4444);"></div>
         </div>
         
-        <!-- Power Bar -->
-        <div id="power-bar-container" class="w-full h-6 bg-gray-900/50 rounded-lg mt-8 hidden relative p-1">
-             <div id="power-bar-positive" class="h-full absolute left-1/2 rounded-r-sm" style="width: 0%; background: linear-gradient(90deg, #A7F3D0, #34D399);"></div>
-             <div id="power-bar-negative" class="h-full absolute right-1/2 rounded-l-sm" style="width: 0%; background: linear-gradient(270deg, #FCA5A5, #EF4444);"></div>
-             <div class="absolute top-0 left-1/2 w-0.5 h-full bg-white/50"></div>
-        </div>
-
         <!-- Spin Button -->
-        <button id="spin-button" class="btn-spin mt-4 w-full md:w-auto text-2xl font-bold bg-white text-indigo-600 px-12 py-4 rounded-full shadow-lg hover:bg-yellow-300">
+        <button id="spin-button" class="btn-spin mt-8 w-full md:w-auto text-2xl font-bold bg-white text-indigo-600 px-12 py-4 rounded-full shadow-lg hover:bg-yellow-300">
             Bắt đầu quay!
         </button>
 
@@ -96,7 +92,7 @@
         <!-- Modal for Winner -->
         <div id="winner-modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 hidden z-50">
             <div class="bg-white p-6 sm:p-8 rounded-lg text-center shadow-xl transform transition-all scale-95 opacity-0 w-11/12 max-w-lg" id="modal-content">
-                <h2 class="text-3xl font-bold text-yellow-500 mb-2">Congratulations!</h2>
+                <h2 class="text-3xl font-bold text-yellow-500 mb-2">CHÚC Mừng!</h2>
                 <p id="winner-name" class="text-4xl sm:text-5xl font-black text-gray-800 my-6 break-words"></p>
                 <button id="close-modal" class="bg-indigo-600 text-white font-bold px-8 py-3 rounded-full hover:bg-indigo-700 transition-colors">Tuyệt vời!</button>
             </div>
@@ -113,7 +109,6 @@
         const winnerName = document.getElementById('winner-name');
         const closeModal = document.getElementById('close-modal');
         const confettiContainer = document.getElementById('confetti-container');
-        const powerBarContainer = document.getElementById('power-bar-container');
         const powerBarPositive = document.getElementById('power-bar-positive');
         const powerBarNegative = document.getElementById('power-bar-negative');
 
@@ -134,12 +129,10 @@
             const baseFontSize = parseFloat(getComputedStyle(element).fontSize);
             let scale = 1;
 
-            // Only adjust if necessary
             if (element.scrollWidth > container.clientWidth) {
                 scale = container.clientWidth / element.scrollWidth;
             }
             
-            // Apply new size, ensuring it doesn't go below a minimum
             element.style.fontSize = `${Math.max(12, baseFontSize * scale)}px`;
         };
 
@@ -170,12 +163,13 @@
             if (!isCharging) return;
             isCharging = false;
             clearInterval(chargeInterval);
-            powerBarContainer.classList.add('hidden');
+            // Hide power bars on release
+            powerBarPositive.style.width = '0%';
+            powerBarNegative.style.width = '0%';
             startSpin(powerLevel);
         };
 
         const startCharge = () => {
-            powerBarContainer.classList.remove('hidden');
             const maxPower = 150;
             let angle = 0;
 
@@ -298,5 +292,3 @@
     </script>
 </body>
 </html>
-
-
